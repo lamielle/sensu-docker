@@ -1,6 +1,8 @@
 FROM debian:jessie
 MAINTAINER Alan LaMielle <alan.lamielle+github@gmail.com>
 
+EXPOSE 4567
+
 ADD http://repos.sensuapp.org/apt/pubkey.gpg /tmp/sensu-pubkey.gpg
 
 RUN apt-key add /tmp/sensu-pubkey.gpg \
