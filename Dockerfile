@@ -2,6 +2,7 @@ FROM debian:jessie
 MAINTAINER Alan LaMielle <alan.lamielle+github@gmail.com>
 
 EXPOSE 4567
+ENV PATH /opt/sensu/embedded/bin:$PATH
 
 ADD http://repos.sensuapp.org/apt/pubkey.gpg /tmp/sensu-pubkey.gpg
 
