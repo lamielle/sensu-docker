@@ -10,7 +10,7 @@ RUN apt-key add /tmp/sensu-pubkey.gpg \
  && apt-get update \
  && apt-get install -y sensu unzip
 
-ADD https://github.com/sensu/sensu-community-plugins/archive/master.zip /opt/sensu
+ADD https://github.com/sensu/sensu-community-plugins/archive/master.zip /opt/sensu/
 RUN cd /opt/sensu && unzip master.zip && rm master.zip && \
     mv sensu-community-plugins-master/extensions /etc/sensu && \
     mv sensu-community-plugins-master/handlers   /etc/sensu && \
