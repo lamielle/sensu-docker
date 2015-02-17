@@ -18,5 +18,4 @@ RUN cd /opt/sensu && unzip master.zip && rm master.zip && \
     mv sensu-community-plugins-master/handlers   /etc/sensu && \
     mv sensu-community-plugins-master/mutators   /etc/sensu && \
     mv sensu-community-plugins-master/plugins    /etc/sensu && \
-    rm -R sensu-community-plugins-master && \
-    echo "LOG_LEVEL=info" >> /etc/default/sensu
+    rm -R sensu-community-plugins-master
