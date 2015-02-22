@@ -10,7 +10,7 @@ RUN apt-key add /tmp/sensu-pubkey.gpg \
  && echo 'deb http://repos.sensuapp.org/apt sensu main' > /etc/apt/sources.list.d/sensu.list \
  && apt-get update \
  && apt-get install -y sensu ntp unzip \
- && gem install influxdb
+ && gem install influxdb hipchat
 
 ADD https://github.com/sensu/sensu-community-plugins/archive/master.zip /opt/sensu/
 RUN cd /opt/sensu && unzip master.zip && rm master.zip && \
