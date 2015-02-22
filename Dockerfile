@@ -9,8 +9,11 @@ ADD http://repos.sensuapp.org/apt/pubkey.gpg /tmp/sensu-pubkey.gpg
 RUN apt-key add /tmp/sensu-pubkey.gpg \
  && echo 'deb http://repos.sensuapp.org/apt sensu main' > /etc/apt/sources.list.d/sensu.list \
  && apt-get update \
- && apt-get install -y sensu ntp unzip \
- && gem install influxdb hipchat
+ && apt-get install -y sensu ntp unzip build-essential \
+ && gem install --no-rdoc --no-ri influxdb hipchat \
+ && apt-get remove -y build-essential \
+ && apt-get autoremove -y
+
 
 ADD https://github.com/sensu/sensu-community-plugins/archive/master.zip /opt/sensu/
 RUN cd /opt/sensu && unzip master.zip && rm master.zip && \
