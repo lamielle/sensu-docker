@@ -14,12 +14,15 @@ RUN apt-key add /tmp/sensu-pubkey.gpg \
  && apt-get remove -y build-essential \
  && apt-get autoremove -y
 
-
 ADD https://github.com/sensu/sensu-community-plugins/archive/master.zip /opt/sensu/
 RUN cd /opt/sensu && unzip master.zip && rm master.zip && \
-    mv sensu-community-plugins-master/extensions /etc/sensu && \
     mv sensu-community-plugins-master/handlers   /etc/sensu && \
     mv sensu-community-plugins-master/mutators   /etc/sensu && \
     mv sensu-community-plugins-master/plugins    /etc/sensu && \
+    mkdir -p /etc/sensu/extensions/handlers && \
+    cp sensu-community-plugins-master/extensions/handlers/hipchat.rb /etc/sensu/extensions/handlers && \
+    mkdir -p /etc/sensu/extensions.all && \
+    mv sensu-community-plugins-master/extensions/* /etc/sensu/extensions.all && \
     rm -R sensu-community-plugins-master
 ADD http-metrics.rb /etc/sensu/plugins/
+ADD influx.rb /etc/sensu/extensions/handlers/
