@@ -1,6 +1,5 @@
 require 'rubygems' if RUBY_VERSION < '1.9.0'
 require 'influxdb'
-require 'timeout'
 
 # From https://github.com/lusis/sensu_influxdb_handler
 module Sensu::Extension
@@ -17,7 +16,6 @@ module Sensu::Extension
 
     def post_init
       @influxdb = InfluxDB::Client.new settings['influx']['database'], :host => settings['influx']['host'], :port => settings['influx']['port'], :username => settings['influx']['user'], :password => settings['influx']['password']
-      @timeout = @settings['influx']['timeout'] || 15
     end
 
     def run(event)
