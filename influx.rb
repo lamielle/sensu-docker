@@ -82,7 +82,8 @@ module Sensu::Extension
           @influxdb.write_point(key, data.merge(metadata))
         end
       rescue => e
-        @logger.error("InfluxDB: Error posting event - #{e.backtrace.to_s}")
+        @logger.error("InfluxDB: Error posting event: #{e.message}")
+        @logger.error("InfluxDB: Backtrace:\n#{e.backtrace.join('\n')}")
         @logger.error("InfluxDB: #{event[:check][:output]}")
       end
 
