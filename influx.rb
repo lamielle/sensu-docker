@@ -9,6 +9,7 @@ module Sensu::Extension
     def post_init
       server         = settings['influx']['host']
       port           = settings['influx']['port']
+      use_ssl        = settings['influx']['ssl']
       username       = settings['influx']['username']
       password       = settings['influx']['password']
       database       = settings['influx']['database']
@@ -18,6 +19,7 @@ module Sensu::Extension
                     host: server,
                     server: server,
                     port: port,
+                    use_ssl: use_ssl,
                     username: username,
                     password: password,
                     time_precision: time_precision
