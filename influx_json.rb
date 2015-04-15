@@ -4,7 +4,7 @@ require 'json'
 
 # From https://github.com/lusis/sensu_influxdb_handler
 module Sensu::Extension
-  class Influx < Handler
+  class InfluxJson < Handler
     # The post_init hook is called after the main event loop has started
     # At this time EventMachine is available for interaction.
     def post_init
@@ -31,7 +31,7 @@ module Sensu::Extension
     def definition
       {
         type: 'extension', # Always.
-        name: 'influx', # Usually just class name lower case.
+        name: 'influx_json', # Usually just class name lower case.
         mutator: 'ruby_hash'
       }
     end
