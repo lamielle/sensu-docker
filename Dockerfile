@@ -25,4 +25,5 @@ RUN cd /opt/sensu && unzip master.zip && rm master.zip && \
     mv sensu-community-plugins-master/extensions/* /etc/sensu/extensions.all && \
     rm -R sensu-community-plugins-master
 ADD http-metrics.rb /etc/sensu/plugins/
-ADD influx.rb /etc/sensu/extensions/handlers/
+ADD influx_keyvalue.rb /etc/sensu/extensions/handlers/
+ADD influx_json.rb /etc/sensu/extensions/handlers/

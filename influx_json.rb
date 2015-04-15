@@ -1,5 +1,6 @@
 require 'rubygems' if RUBY_VERSION < '1.9.0'
 require 'influxdb'
+require 'json'
 
 # From https://github.com/lusis/sensu_influxdb_handler
 module Sensu::Extension
@@ -53,35 +54,22 @@ module Sensu::Extension
         # Process each line as an individual data point.
         # We expect lines to look like the following:
         #
-        # series.name value timestamp meta1=v1 meta2=v2
+        # {"metric": "series.name", "value": <value>, "time": <time>, "meta1": <v1>, "meta2", <v2>}
         #
-        # The first component of the series name will be dropped.
-        # The remaining '.' characters in the series name will be converted to '_'.
+        # The '.' characters in the series name will be converted to '_'.
         # The timestamp is unix timestamp (seconds).
         # The metadata key/value pairs are optional.
         event[:check][:output].each_line do |metric|
           @logger.debug("Parsing line: #{metric}")
-          fields = metric.split
-          next unless fields.count >= 3
 
-          key = fields[0].split('.', 2)[1]
-          value = fields[1].to_f
-          time = fields[2].to_i
-          metadata = fields[3..fields.size]
-          next unless key
+          metric = JSON.parse(metric)
+          next unless metric.include?('metric') && metric.include?('value') && metric.include?('time')
 
-          key.gsub!('.', '_')
-          data = {
-                   value: value,
-                   time:  time,
-                   host:  event[:client][:name],
-                   ip:    event[:client][:address],
-                 }
+          key = metric['metric'].gsub('.', '_')
+          metric = metric.reject {|k| k == 'metric'}
 
-          metadata = Hash[fields[3..fields.size].map {|kv| kv.split('=')}]
-
-          @logger.debug("Inserting data=#{data} metadata=#{metadata} merged=#{data.merge(metadata)}")
-          @influxdb.write_point(key, data.merge(metadata))
+          @logger.debug("Inserting key=#{key} metric=#{metric}")
+          @influxdb.write_point(key, metric)
         end
       rescue => e
         @logger.error("InfluxDB: Error posting event: #{e.message}")
