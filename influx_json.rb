@@ -62,6 +62,9 @@ module Sensu::Extension
         event[:check][:output].each_line do |metric|
           @logger.debug("Parsing line: #{metric}")
 
+          metric = metric.strip
+          next if metric == ''
+
           metric = JSON.parse(metric)
           next unless metric.include?('metric') && metric.include?('value') && metric.include?('time')
 
