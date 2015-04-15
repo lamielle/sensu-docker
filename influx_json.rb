@@ -70,6 +70,8 @@ module Sensu::Extension
 
           key = metric['metric'].gsub('.', '_')
           metric = metric.reject {|k| k == 'metric'}
+          metric['host'] = event[:client][:name]
+          metric['ip']   = event[:client][:address]
 
           @logger.debug("Inserting key=#{key} metric=#{metric}")
           @influxdb.write_point(key, metric)
